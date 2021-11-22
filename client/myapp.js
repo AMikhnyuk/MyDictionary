@@ -16,7 +16,6 @@ export default class MyApp extends JetApp {
 		this.use(plugins.User, {
 			model: session,
 			login: "/startViews.login",
-			afterLogin: "/main/mainViews.groups/mainViews.groupsViews.words",
 			public: path => path === "/startViews.register"
 		});
 	}

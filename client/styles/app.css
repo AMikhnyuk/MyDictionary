@@ -15,7 +15,8 @@
     cursor: pointer;
     color: #4a855f;
 }
-.transparent{
+.transparent,
+.webix_view.webix_form.transparent{
     background: transparent;
 }
 .header_text{
@@ -35,7 +36,8 @@
 }
 
 .webix_view.webix_control.webix_el_richselect.custom_input  div,
-.webix_view.webix_control.webix_el_text.custom_input input{
+.webix_view.webix_control.webix_el_text.custom_input input,
+.custom_input{
     border: 1px solid #ADADAD;
     border-radius: 10px;
     font-weight: 300;
@@ -45,7 +47,8 @@
 .webix_view.webix_control.webix_el_richselect.custom_input > div{
     border:none
 }
-.custom_input.webix_layout_form input::placeholder{
+.custom_input.webix_layout_form input::placeholder,
+.custom_input{
     font-weight: 300;
     font-size: 24px;
     line-height: 28px;
@@ -120,13 +123,11 @@
     border-top-right-radius: 10px;
 }
 .webix_view.webix_dtable.custom_table{
+    
     border: none;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     background: #F4F5F9;
-}
-.custom_table .webix_ss_body{
-    padding-top:15px
 }
 .webix_view.webix_dtable.custom_table div.webix_last_row{
     border-bottom: 1px solid rgba(89, 158, 113, 0.5);
@@ -152,7 +153,6 @@
     border-radius: 40px;
 }
 .webix_view.nougroups_template:hover{
-    cursor: pointer;
     opacity: 75%;
 }
 .nougroups_header{
@@ -167,6 +167,15 @@
     font-size: 28px;
     line-height: 33px;
 }
+.nougroups_name{
+    margin-bottom: 15px;
+}
+.nogroups_input{
+    padding-left: 10px;
+    height: 50px;
+    width: 400px;
+}
+
 
 /* -------------TEST-------------- */
 
@@ -179,4 +188,92 @@
     font-weight: 300;
     font-size: 18px;
     line-height: 20px;
+}
+
+/* POPUPS */
+
+.addStoreWindow{
+    background: #FFFFFF;
+    box-shadow: 0px 0px 8px rgba(13, 17, 38, 0.35);
+    border-radius: 16px;
+}
+
+.addStoreLabel .webix_template{
+   display: flex;
+   align-items: center;
+   padding-left: 20px;
+}
+.labelText{
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    color: #2D2D3F;
+    margin-right: 12px;
+}
+.labelSteps{
+    color: #9FA2BB;
+}
+.labelStepsRed{
+    color:#E51928;
+}
+.wxi-close.addStoreClose{
+    color:#2D2D3F;
+}
+
+.addStoreName{
+    font-size: 17px;
+    line-height: 20px;
+    color: #2D2D3F;
+    padding-left: 0;
+}
+.addStoreForm label{
+    color: #63697D;
+    font-weight: normal;
+}
+.addStoreForm .webix_switch_box.webix_switch_on{
+    background-color: #E51928;
+    border:none
+}
+.addStoreForm .webix_switch_box{
+    background-color: #DDE0E9;
+}
+
+.webix_secondary.cancelButton .webix_button{
+    border: 1px solid #E51928;
+    border-radius: 4px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #E51928;
+}
+.webix_secondary.nextButton .webix_button{
+    background: #E51928;
+    border-radius: 4px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FFFFFF;
+}
+.webix_secondary.backButton .webix_button, 
+.webix_secondary.backButton .webix_button span{
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    background: none;
+    color: #9FA2BB;
+}
+.webix_secondary.backButton .webix_button span{
+    font-size: 20px;
+}
+.webix_secondary.backButton .webix_button:hover,
+.webix_secondary.backButton .webix_button:focus,
+.webix_secondary.backButton .webix_button:active,
+.webix_secondary.nextButton .webix_button:hover,
+.webix_secondary.cancelButton .webix_button:hover,
+.webix_secondary.nextButton .webix_button:focus,
+.webix_secondary.cancelButton .webix_button:focus,
+.webix_secondary.nextButton .webix_button:active,
+.webix_secondary.cancelButton .webix_button:active{
+    opacity: 75%;
+
 }

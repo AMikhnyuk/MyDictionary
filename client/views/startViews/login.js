@@ -1,5 +1,7 @@
 import {JetView} from "webix-jet";
 
+import groupsCollection from "../../models/groups";
+
 export default class LoginView extends JetView {
 	config() {
 		const loginForm = {
@@ -17,6 +19,7 @@ export default class LoginView extends JetView {
 				{
 					view: "text",
 					name: "login",
+					invalidMessage: "This field must be filled",
 					placeholder: "Логин",
 					width: 510,
 					height: 70,
@@ -24,6 +27,7 @@ export default class LoginView extends JetView {
 				},
 				{
 					view: "text",
+					invalidMessage: "This field must be filled",
 					name: "password",
 					placeholder: "Пароль",
 					type: "password",
@@ -64,6 +68,10 @@ export default class LoginView extends JetView {
 			margin: 23,
 			elementsConfig: {
 				labelPosition: "top"
+			},
+			rules: {
+				login: webix.rules.isNotEmpty,
+				password: webix.rules.isNotEmpty
 			}
 		};
 		const ui = {
@@ -92,9 +100,20 @@ export default class LoginView extends JetView {
 		const form = this.$$("login:form");
 		if (form.validate()) {
 			const data = form.getValues();
-			user.login(data.login, data.password).catch(() => {
-				webix.message("Invalid login or password");
-			});
+			user.login(data.login.trim(), data.password)
+				.then(() => {
+					const userId = user.getUser().id;
+					webix.ajax().get(`/server/groups${userId}`)
+						.then((a) => {
+							groupsCollection.clearAll();
+							groupsCollection.parse(a.json());
+							if (groupsCollection.find(item => item, true)) this.app.show("main/mainViews.groups");
+							else this.app.show("main/mainViews.groups/mainViews.groupsViews.nogroups");
+						});
+				})
+				.catch(() => {
+					webix.message("Неверный логин или пароль");
+				});
 		}
 	}
 }

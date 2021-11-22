@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
 
+import wordsCollection from "../../../models/words";
 import AddWordWindow from "./addWord";
 
 export default class WordsView extends JetView {
@@ -7,6 +8,7 @@ export default class WordsView extends JetView {
 		const wordsTable = {
 			view: "datatable",
 			css: "custom_table",
+			localId: "words:table",
 			columns: [
 				{id: "word", header: "Слово", fillspace: 2, css: "name_column"},
 				{id: "translation", header: "Перевод", css: "name_column", fillspace: 2},
@@ -14,8 +16,13 @@ export default class WordsView extends JetView {
 				{template: "<i class=\"webix_icon wxi-trash green_text\"></i>", width: 50}
 
 			],
-			scrollY: false,
-			data: [{word: "Hello", translation: "Привет", partofspeech: "Существительное"}, {word: "World", translation: "Мир", partofspeech: "Существительное"}]
+			scrollX: false,
+			onClick: {
+				green_text: (e, item) => {
+					wordsCollection.remove(item.row);
+					this.app.callEvent("tableFilter");
+				}
+			}
 		};
 		const wordsTableHeader = {
 			template: `
@@ -27,7 +34,7 @@ export default class WordsView extends JetView {
 			borderless: true,
 			onClick: {
 				webix_icon: () => {
-					this.win.showWindow();
+					this.win.showWindow(this.groupId);
 				}
 			}
 		};
@@ -43,5 +50,15 @@ export default class WordsView extends JetView {
 
 	init() {
 		this.win = this.ui(AddWordWindow);
+		const table = this.$$("words:table");
+		table.sync(wordsCollection);
+		this.on(this.app, "tableFilter", () => {
+			table.filter("#groupId#", this.groupId);
+		});
+	}
+
+	urlChange() {
+		this.groupId = this.getParam("groupId");
+		this.app.callEvent("tableFilter");
 	}
 }

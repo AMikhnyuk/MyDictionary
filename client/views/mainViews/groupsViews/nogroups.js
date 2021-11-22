@@ -11,9 +11,15 @@ export default class NogroupsView extends JetView {
 						<i class="webix_icon wxi-plus green_text create_group">Создать группу</i>
 					</div>`,
 			css: "nougroups_template",
+			localId: "nogroups:template",
 			width: 605,
 			height: 528,
-			borderless: true
+			borderless: true,
+			onClick: {
+				green_text: () => {
+					this.app.callEvent("createGroup");
+				}
+			}
 		};
 		const ui = {
 			rows: [

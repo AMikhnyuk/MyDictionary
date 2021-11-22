@@ -1,5 +1,7 @@
 import {JetView} from "webix-jet";
 
+import groupsCollection from "../../models/groups";
+
 export default class TestView extends JetView {
 	config() {
 		const testHeader = {
@@ -24,7 +26,16 @@ export default class TestView extends JetView {
 				{
 					cols: [
 						{},
-						{view: "richselect", css: "custom_input", options: ["Hello", "World"], height: 55, width: 510},
+						{view: "richselect",
+							css: "custom_input",
+							options: {
+								body: {
+									data: groupsCollection,
+									template: "#name#"
+								}
+							},
+							height: 55,
+							width: 510},
 						{}
 					]
 				},

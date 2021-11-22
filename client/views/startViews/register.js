@@ -16,6 +16,7 @@ export default class RegisterView extends JetView {
 				{
 					view: "text",
 					name: "login",
+					invalidMessage: "This field must be filled",
 					placeholder: "Моб.телефон или Email",
 					width: 510,
 					height: 70,
@@ -24,6 +25,7 @@ export default class RegisterView extends JetView {
 				{
 					view: "text",
 					name: "name",
+					invalidMessage: "This field must be filled",
 					placeholder: "Имя и фамилия",
 					width: 510,
 					height: 70,
@@ -32,6 +34,7 @@ export default class RegisterView extends JetView {
 				{
 					view: "text",
 					name: "password",
+					invalidMessage: "This field must be filled",
 					placeholder: "Пароль",
 					type: "password",
 					width: 510,
@@ -70,6 +73,11 @@ export default class RegisterView extends JetView {
 			margin: 23,
 			elementsConfig: {
 				labelPosition: "top"
+			},
+			rules: {
+				login: webix.rules.isNotEmpty,
+				name: webix.rules.isNotEmpty,
+				password: webix.rules.isNotEmpty
 			}
 		};
 		const ui = {
@@ -97,8 +105,16 @@ export default class RegisterView extends JetView {
 		const form = this.$$("register:form");
 		if (form.validate()) {
 			const data = form.getValues();
+			data.login = data.login.trim();
 			webix.ajax().post("/server/register", data)
-				.then(a => a.json());
+				.catch((err) => {
+					if (err.status === 403) webix.message("Такой пользователь уже существует");
+					else webix.message("Неизвестная ошибка, попробуйте снова");
+				})
+				.then(() => {
+					this.app.show("startViews.login");
+					webix.message("Регистрация прошла успешно");
+				});
 		}
 	}
 }

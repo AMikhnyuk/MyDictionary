@@ -3,7 +3,9 @@ const cors = require("cors");
 const express = require("express");
 const session = require("express-session");
 
-const userRouter = require("./routers/users.router");
+const groupsRouter = require("./routers/groups.router");
+const usersRouter = require("./routers/users.router");
+const wordsRouter = require("./routers/words.router");
 
 const app = express();
 const port = 3000;
@@ -20,7 +22,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
 app.use(cors());
 
-app.use("/server", userRouter);
+app.use("/server", usersRouter);
+app.use("/server", groupsRouter);
+app.use("/server", wordsRouter);
 
 app.listen(port, () => {
 	console.log(`Hearing at ${port}`);
