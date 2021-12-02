@@ -1,6 +1,6 @@
 const Router = require("express");
 
-const CommonController = require("../controllers/commonController");
+const CommonController = require("../controllers/common.controller");
 const Word = require("../models/words.model");
 
 

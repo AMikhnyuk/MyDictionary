@@ -22,17 +22,24 @@ export default class AddWordWindow extends JetView {
 						css: "custom_input",
 						placeholder: "Часть речи",
 						options: [
-							"Существительное", "Пирлагательное", "Глагол"
+							"Существительное", "Прилагательное", "Глагол"
 						],
 						name: "partofspeech"},
 					{view: "button",
 						value: "Добавить",
 						css: "green_btn",
 						click: () => {
-							const data = this.$$("addword:form").getValues();
-							wordsCollection.add(data);
-							this.app.callEvent("tableFilter");
-							this.getRoot().hide();
+							const user = this.app.getService("user").getUser();
+							webix.ajax().get(`server/groups${user.id}`).then((groups) => {
+								const group = groups.json().find(item => item.id === +this.groupId);
+								webix.ajax().put(`server/groups${this.groupId}`, {wordsnum: +group.wordsnum + 1}).then(() => {
+									const data = this.$$("addword:form").getValues();
+									wordsCollection.add({...data, groupId: this.groupId});
+									this.app.callEvent("wordAdd", [this.groupId, +group.wordsnum + 1]);
+									this.app.callEvent("tableFilter");
+									this.getRoot().hide();
+								});
+							});
 						}}
 
 				],
@@ -46,6 +53,6 @@ export default class AddWordWindow extends JetView {
 
 	showWindow(groupId) {
 		this.getRoot().show();
-		this.$$("addword:form").setValues({groupId});
+		this.groupId = groupId;
 	}
 }

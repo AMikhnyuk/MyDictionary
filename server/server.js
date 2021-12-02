@@ -4,6 +4,8 @@ const express = require("express");
 const session = require("express-session");
 
 const groupsRouter = require("./routers/groups.router");
+const stepsRouter = require("./routers/steps.router");
+const testRouter = require("./routers/test.router");
 const usersRouter = require("./routers/users.router");
 const wordsRouter = require("./routers/words.router");
 
@@ -25,6 +27,8 @@ app.use(cors());
 app.use("/server", usersRouter);
 app.use("/server", groupsRouter);
 app.use("/server", wordsRouter);
+app.use("/server", testRouter);
+app.use("/server", stepsRouter);
 
 app.listen(port, () => {
 	console.log(`Hearing at ${port}`);

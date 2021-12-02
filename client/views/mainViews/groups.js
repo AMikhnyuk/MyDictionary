@@ -1,7 +1,5 @@
 import {JetView} from "webix-jet";
 
-import groupsCollection from "../../models/groups";
-import AddWordWindow from "./groupsViews/addWord";
 
 export default class GroupsView extends JetView {
 	config() {
@@ -28,7 +26,7 @@ export default class GroupsView extends JetView {
 				green_text: (e, item) => {
 					webix.ajax().del(`server/groups${item.row}`, {})
 						.then(() => {
-							groupsCollection.remove(item.row);
+							this.table.remove(item.row);
 							const firstId = this.table.getFirstId();
 							if (firstId) this.table.select(firstId);
 							else this.app.show("main/mainViews.groups/mainViews.groupsViews.nogroups");
@@ -40,10 +38,9 @@ export default class GroupsView extends JetView {
 					this.app.show(`main/mainViews.groups/mainViews.groupsViews.words?groupId=${item.row}`);
 				},
 				onAfterEditStop: (obj, item) => {
-					webix.ajax().put(`server/groups${item.row}`, {name: obj.value})
-						.then(() => {
-							groupsCollection.updateItem(item.row, {name: obj.value});
-						});
+					webix.ajax().put(`server/groups${item.row}`, {name: obj.value}).then(() => {
+						this.table.updateItem(item.row, {name: obj.value});
+					});
 				}
 			},
 			scrollX: false,
@@ -121,12 +118,17 @@ export default class GroupsView extends JetView {
 	}
 
 	init() {
-		this.win = this.ui(AddWordWindow);
 		this.table = this.$$("groups:table");
-		this.table.sync(groupsCollection);
+		this.user = this.app.getService("user").getUser();
+		this.table.load(`server/groups${this.user.id}`).then(() => {
+			this.table.select(this.table.getFirstId());
+		});
 		this.on(this.app, "createGroup", () => {
 			this.app.show("main/mainViews.groups");
 			this.$$("add:group").show();
+		});
+		this.on(this.app, "wordAdd", (groupId, wordsnum) => {
+			this.$$("groups:table").updateItem(groupId, {wordsnum});
 		});
 	}
 
@@ -135,10 +137,10 @@ export default class GroupsView extends JetView {
 		const name = form.getValues().name;
 		if (form.validate()) {
 			const user = this.app.getService("user").getUser();
-			webix.ajax().post("server/groups", {userId: user.id, name})
-				.then((a) => {
-					groupsCollection.add(a.json());
+			webix.ajax().post("server/groups", {userId: user.id, name, wordsnum: 0})
+				.then((createdItem) => {
 					form.hide();
+					this.table.add(createdItem.json());
 					this.table.select(this.table.getLastId());
 				})
 				.catch((err) => {

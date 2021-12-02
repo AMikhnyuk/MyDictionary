@@ -1,5 +1,5 @@
 function status() {
-	return webix.ajax().post("/server/server.js")
+	return webix.ajax().post("/server//login/status")
 		.then(a => a.json());
 }
 

@@ -15,6 +15,7 @@ module.exports = class GroupsController {
 			await Group.destroy({
 				where: {
 					id: req.params.groupId
+
 				}
 			}).then((result) => {
 				console.log(result);

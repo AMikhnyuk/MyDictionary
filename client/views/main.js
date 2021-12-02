@@ -5,15 +5,16 @@ export default class MainView extends JetView {
 	config() {
 		const mainHeader = {
 			css: "main_header transparent",
-			template: `
+			localId: "mainHeader",
+			template: ({src}) => `
 					
 						<img src="assets/logo.png" class="header_logo">
 						<nav>
-							<a href="#!/main/mainViews.groups/mainViews.groupsViews.words" class="header_link green_text">Мои группы</a>
+							<a href="#!/main/mainViews.groups" class="header_link green_text">Мои группы</a>
 							<a href="#!/main/mainViews.test" class="header_link green_text">Пройти тест</a>
 							<a href="#!/main/mainViews.results" class="header_link green_text">Мои результаты</a>
 						</nav>
-						<div class="header_user"><img src="assets/user.jpg" class="user_img"><div>
+						<div class="header_user"><img src="${src || "assets/user.jpg"}" class="user_img custom_img"><div>
 			`,
 			height: 50,
 			borderless: true,
@@ -42,6 +43,8 @@ export default class MainView extends JetView {
 	}
 
 	init() {
+		this.user = this.app.getService("user").getUser();
+		this.$$("mainHeader").setValues({src: this.user.photo});
 		this.popup = this.ui({
 			view: "popup",
 			localId: "user:popup",
@@ -49,15 +52,16 @@ export default class MainView extends JetView {
 			body: {
 				view: "list",
 				scroll: false,
-				select: true,
 				autoheight: true,
 				data: [{value: "Мой профиль", id: "profile"}, {value: "Выйти", id: "logout"}],
 				on: {
-					onAfterSelect: (id) => {
+					onItemClick: (id) => {
 						if (id === "profile") {
 							this.app.show("main/mainViews.profile");
 						}
 						else if (id === "logout") {
+							const user = this.app.getService("user");
+							user.logout();
 							this.app.show("startViews.login");
 						}
 					}

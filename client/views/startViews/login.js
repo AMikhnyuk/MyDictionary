@@ -1,7 +1,5 @@
 import {JetView} from "webix-jet";
 
-import groupsCollection from "../../models/groups";
-
 export default class LoginView extends JetView {
 	config() {
 		const loginForm = {
@@ -105,9 +103,7 @@ export default class LoginView extends JetView {
 					const userId = user.getUser().id;
 					webix.ajax().get(`/server/groups${userId}`)
 						.then((a) => {
-							groupsCollection.clearAll();
-							groupsCollection.parse(a.json());
-							if (groupsCollection.find(item => item, true)) this.app.show("main/mainViews.groups");
+							if (a.json()) this.app.show("main/mainViews.groups");
 							else this.app.show("main/mainViews.groups/mainViews.groupsViews.nogroups");
 						});
 				})

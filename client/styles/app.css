@@ -1,5 +1,12 @@
 /* --------COMMON------- */
-
+.border-radius{
+    border-radius: 10px;
+}
+.custom_img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .red{
     color: rgb(182, 50, 50);
 }
@@ -25,6 +32,10 @@
     font-size: 30px;
     line-height: 35px;
     color: black;
+}
+.webix_danger .webix_button{
+    border-radius: 10px;
+
 }
 .webix_secondary.green_btn .webix_button{
     background-color: #599E71;
@@ -97,10 +108,7 @@
     height: 48px;
 }
 .user_img{
-    height: 100%;
-    width: 100%;
     border-radius: 50%;
-    object-fit: cover;
 }
 .header_user:hover{
     cursor: pointer;
@@ -276,4 +284,18 @@
 .webix_secondary.cancelButton .webix_button:active{
     opacity: 75%;
 
+}
+
+/* --------RUN TEST----------- */
+
+.step_count{
+    display: flex;
+    height: 20px;
+    justify-content: space-between;
+}
+.step_count div{
+    border: 1px solid grey;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
 }
