@@ -20,10 +20,11 @@ export default class GroupsView extends JetView {
 					format: value => webix.Date.dateToStr("%d.%m.%Y")(new Date(value))
 				},
 				{id: "wordsnum", header: "Кол. слов", adjust: "header", align: "right", css: "align-center_column"},
-				{template: "<i class=\"webix_icon wxi-trash green_text\"></i>", width: 50}
+				{template: "<i class=\"webix_icon wxi-download green_text download\"></i>", width: 50},
+				{template: "<i class=\"webix_icon wxi-trash green_text delete\"></i>", width: 50}
 			],
 			onClick: {
-				green_text: (e, item) => {
+				delete: (e, item) => {
 					webix.ajax().del(`server/groups${item.row}`, {})
 						.then(() => {
 							this.table.remove(item.row);
@@ -31,6 +32,10 @@ export default class GroupsView extends JetView {
 							if (firstId) this.table.select(firstId);
 							else this.app.show("main/mainViews.groups/mainViews.groupsViews.nogroups");
 						});
+				},
+				download: (e, item) => {
+					const name = this.table.getItem(item.row).name;
+					this.app.callEvent("toExcel", [item.row, name]);
 				}
 			},
 			on: {
@@ -120,8 +125,9 @@ export default class GroupsView extends JetView {
 	init() {
 		this.table = this.$$("groups:table");
 		this.user = this.app.getService("user").getUser();
-		this.table.load(`server/groups${this.user.id}`).then(() => {
-			this.table.select(this.table.getFirstId());
+		this.table.load(`server/groups${this.user.id}`).then((groups) => {
+			this.table.unselectAll();
+			if (groups.json()[0]) this.table.select(groups.json()[0].id);
 		});
 		this.on(this.app, "createGroup", () => {
 			this.app.show("main/mainViews.groups");

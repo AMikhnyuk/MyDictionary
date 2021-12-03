@@ -49,11 +49,19 @@ export default class WordsView extends JetView {
 	}
 
 	init() {
+		this.groupId = this.getParam("groupId");
 		this.win = this.ui(AddWordWindow);
 		const table = this.$$("words:table");
 		table.sync(wordsCollection);
 		this.on(this.app, "tableFilter", () => {
 			table.filter("#groupId#", this.groupId);
+		});
+		this.on(this.app, "toExcel", (groupId, name) => {
+			webix.toExcel(table, {
+				hide: obj => obj.groupId !== `${groupId}`,
+				filename: name,
+				filterHTML: true
+			});
 		});
 	}
 
