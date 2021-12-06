@@ -3,6 +3,7 @@ import {JetView} from "webix-jet";
 
 export default class MainView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const mainHeader = {
 			css: "main_header transparent",
 			localId: "mainHeader",
@@ -10,9 +11,9 @@ export default class MainView extends JetView {
 					
 						<img src="assets/logo.png" class="header_logo">
 						<nav>
-							<a href="#!/main/mainViews.groups" class="header_link green_text">Мои группы</a>
-							<a href="#!/main/mainViews.test" class="header_link green_text">Пройти тест</a>
-							<a href="#!/main/mainViews.results" class="header_link green_text">Мои результаты</a>
+							<a href="#!/main/mainViews.groups" class="header_link green_text">${_("Мои группы")}</a>
+							<a href="#!/main/mainViews.test" class="header_link green_text">${_("Пройти тест")}</a>
+							<a href="#!/main/mainViews.results" class="header_link green_text">${_("Мои результаты")}</a>
 						</nav>
 						<div class="header_user"><img src="${src || "assets/user.jpg"}" class="user_img custom_img"><div>
 			`,
@@ -43,8 +44,10 @@ export default class MainView extends JetView {
 	}
 
 	init() {
+		const _ = this.app.getService("locale")._;
+		const header = this.$$("mainHeader");
 		this.user = this.app.getService("user").getUser();
-		this.$$("mainHeader").setValues({src: this.user.photo});
+		header.setValues({src: this.user.photo});
 		this.popup = this.ui({
 			view: "popup",
 			localId: "user:popup",
@@ -53,7 +56,7 @@ export default class MainView extends JetView {
 				view: "list",
 				scroll: false,
 				autoheight: true,
-				data: [{value: "Мой профиль", id: "profile"}, {value: "Выйти", id: "logout"}],
+				data: [{value: _("Мой профиль"), id: "profile"}, {value: _("Выйти"), id: "logout"}],
 				on: {
 					onItemClick: (id) => {
 						if (id === "profile") {
@@ -73,6 +76,9 @@ export default class MainView extends JetView {
 					return obj.value;
 				}
 			}
+		});
+		this.on(this.app, "changePhoto", (photo) => {
+			header.setValues({src: photo});
 		});
 	}
 }

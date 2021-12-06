@@ -1,14 +1,18 @@
 import {JetView} from "webix-jet";
 
+import LangSegment from "../additionalViews/langSegment";
+
 export default class LoginView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const loginForm = {
 			view: "form",
 			css: "start_form",
 			localId: "login:form",
 			elements: [
+
 				{
-					template: "<div class=\"form_header flex-center\"><span class=\"header_text\">Войти в аккаунт</span></div>",
+					template: `<div class="form_header flex-center"><span class="header_text">${_("Войти в аккаунт")}</span></div>`,
 					type: "header",
 					borderless: true,
 					height: 60,
@@ -17,17 +21,17 @@ export default class LoginView extends JetView {
 				{
 					view: "text",
 					name: "login",
-					invalidMessage: "This field must be filled",
-					placeholder: "Логин",
+					invalidMessage: _("Это поле не должно быть пустым"),
+					placeholder: _("Логин"),
 					width: 510,
 					height: 70,
 					css: "custom_input"
 				},
 				{
 					view: "text",
-					invalidMessage: "This field must be filled",
+					invalidMessage: _("Это поле не должно быть пустым"),
 					name: "password",
-					placeholder: "Пароль",
+					placeholder: _("Пароль"),
 					type: "password",
 					width: 510,
 					height: 70,
@@ -38,7 +42,7 @@ export default class LoginView extends JetView {
 						{},
 						{
 							view: "button",
-							value: "Войти",
+							value: _("Войти"),
 							width: 510,
 							height: 75,
 							css: "form_enter-btn green_btn",
@@ -50,7 +54,7 @@ export default class LoginView extends JetView {
 
 				},
 				{
-					template: "<div class=\"flex-center\"><span class=\"bottom_text\">У вас ещё нет аккаунта? <span class=\"green_text\">Зарегистрироваться</span></span></div>",
+					template: `<div class="flex-center"><span class="bottom_text">${_("У вас ещё нет аккаунта?")} <span class="green_text">${_("Зарегистрироваться")}</span></span></div>`,
 					borderless: true,
 					onClick: {
 						green_text: () => {
@@ -74,7 +78,11 @@ export default class LoginView extends JetView {
 		};
 		const ui = {
 			cols: [
-				{},
+				{
+					rows: [
+						LangSegment
+					]
+				},
 				{
 					rows: [
 						{
@@ -94,6 +102,7 @@ export default class LoginView extends JetView {
 	}
 
 	doLogin() {
+		const _ = this.app.getService("locale")._;
 		const user = this.app.getService("user");
 		const form = this.$$("login:form");
 		if (form.validate()) {
@@ -108,7 +117,7 @@ export default class LoginView extends JetView {
 						});
 				})
 				.catch(() => {
-					webix.message("Неверный логин или пароль");
+					webix.message(_("Неверный логин или пароль"));
 				});
 		}
 	}

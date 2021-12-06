@@ -5,7 +5,7 @@ export default class RunTest extends JetView {
 		const body = {
 			rows: [
 				{
-					template: () => "Сейчас здесь появится линия",
+					template: () => "...",
 					height: 30,
 					localId: "stepCount",
 					borderless: true
@@ -13,7 +13,7 @@ export default class RunTest extends JetView {
 				{
 					template: ({secret}) => `
 							
-							<span style="padding-top:30px;">${secret || "Сейчас здесь появится слово"}</span>
+							<span style="padding-top:30px;">${secret || "..."}</span>
 						`,
 					localId: "secret",
 					css: "header_text"

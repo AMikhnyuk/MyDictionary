@@ -2,6 +2,7 @@ import {JetView} from "webix-jet";
 
 export default class ResultsView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const resultsTable = {
 			view: "datatable",
 			css: "custom_table",
@@ -17,27 +18,27 @@ export default class ResultsView extends JetView {
 				{
 					id: "groupId",
 					css: "name_column",
-					header: "Группа",
+					header: _("Группа"),
 					fillspace: true,
 					options: `server/groups${this.app.getService("user").getUser().id}`,
-					template: (obj, common, val, config) => config.collection.getItem(obj.id).name
+					template: (obj, common, val, config) => config.collection.getItem(obj.groupId).name
 				},
 				{id: "updatedAt",
-					header: "Дата прохождения",
-					adjust: "header",
+					header: _("Дата прохождения"),
+					adjust: "content",
 					css: "align-center_column",
 					template: ({updatedAt}) => webix.Date.dateToStr("%d.%m.%Y")(new Date(updatedAt))},
 				{id: "score",
-					header: "Результат",
-					adjust: "header",
-					template: ({score}) => `${score} баллов`},
+					header: _("Результат"),
+					adjust: "content",
+					template: ({score}) => `${score} ${_("баллов")}`},
 				{
 					id: "status",
-					header: "Статус",
+					header: _("Статус"),
 					width: 120,
 					template: ({status}) => {
-						if (status === "in-progress") return "<span style=\"color:orange;\">● В процессе</span>";
-						else if (status === "completed") return "<span style=\"color:green;\">● Завершён</span>";
+						if (status === "in-progress") return `<span style="color:orange;">● ${_("В процессе")}</span>`;
+						else if (status === "completed") return `<span style="color:green;">● ${_("Завершён")}</span>`;
 						return status;
 					}}
 			],
@@ -45,7 +46,7 @@ export default class ResultsView extends JetView {
 				onAfterSelect: (item) => {
 					const test = this.$$("resultsTable").getItem(item.row);
 					if (test.status === "in-progress") {
-						webix.confirm("Продолжить тест?").then(() => {
+						webix.confirm(_("Продолжить тест?")).then(() => {
 							this.app.show(`main/mainViews.testViews.runTest?testId=${test.id}?step=${test.currentStep}`);
 						});
 					}
@@ -58,7 +59,7 @@ export default class ResultsView extends JetView {
 			width: 600
 		};
 		const resultsTableHeader = {
-			template: "<span class=\"header_text\">Мои результаты</span>",
+			template: `<span class="header_text">${_("Мои результаты")}</span>`,
 			borderless: true,
 			height: 60,
 			css: "table_header flex-center"
@@ -75,9 +76,9 @@ export default class ResultsView extends JetView {
 			template: ({correct, response, step, secret}) => {
 				if (response === "await") return `<span>${step}. ???</span>`;
 				return `
-					${step}.<br> <span style="color:black;">Вопрос:</span> ${secret}<br>
-					 <span style="color:black;">Правильный ответ:</span> ${correct}<br>
-					 <span style="color:black;">Ваш ответ:</span> ${response}</span> <i ${correct === response ? "class=\"webix_icon wxi-check\" style=\"color:green;\"" : "class=\"webix_icon wxi-close\" style=\"color:red;\""}></i>
+					${step}.<br> <span style="color:black;">${_("Вопрос")}:</span> ${secret}<br>
+					 <span style="color:black;">${_("Правильный ответ")}:</span> ${correct}<br>
+					 <span style="color:black;">${_("Ваш ответ")}:</span> ${response}</span> <i ${correct === response ? "class=\"webix_icon wxi-check\" style=\"color:green;\"" : "class=\"webix_icon wxi-close\" style=\"color:red;\""}></i>
 				`;
 			}
 		};
@@ -102,6 +103,6 @@ export default class ResultsView extends JetView {
 
 	init() {
 		this.user = this.app.getService("user").getUser();
-		this.$$("resultsTable").load("server/test");
+		this.$$("resultsTable").load(`server/test/userId${this.user.id}`);
 	}
 }

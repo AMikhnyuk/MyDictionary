@@ -12,7 +12,8 @@ module.exports = class TestController {
 			groupId,
 			currentStep: 1,
 			score: 0,
-			status: "in-progress"
+			status: "in-progress",
+			userId: req.body.userId
 		}).then((test) => {
 			TestController.createSteps(test.dataValues.id, groupId, test, res);
 		});
@@ -90,7 +91,8 @@ module.exports = class TestController {
 		try {
 			const result = await Test.findOne({
 				where: {
-					status: "in-progress"
+					status: "in-progress",
+					userId: req.params.userId
 				}
 			});
 			res.send(result);

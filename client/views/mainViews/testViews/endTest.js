@@ -2,9 +2,10 @@ import {JetView} from "webix-jet";
 
 export default class EndTest extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const resultsTemplate = {
 			css: "flex-center",
-			template: ({score}) => `<span class="header_text">Ваш результат: <span style="color:green;">${score}</span> баллов</span>`,
+			template: ({score}) => `<span class="header_text">${_("Ваш результат")}: <span style="color:green;">${score}</span> ${_("баллов")}</span>`,
 			localId: "endTestScore",
 			width: 500
 		};
@@ -17,7 +18,7 @@ export default class EndTest extends JetView {
 						resultsTemplate,
 						{
 							view: "button",
-							value: "Начать заново",
+							value: _("Попробовать снова"),
 							css: "green_btn",
 							click: () => {
 								const testId = this.getParam("testId");

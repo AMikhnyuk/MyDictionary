@@ -1,14 +1,17 @@
 import {JetView} from "webix-jet";
 
+import LangSegment from "../additionalViews/langSegment";
+
 export default class RegisterView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const registerForm = {
 			view: "form",
 			css: "start_form",
 			localId: "register:form",
 			elements: [
 				{
-					template: "<div class=\"form_header flex-center\"><span class=\"header_text\">Регистрация</span></div>",
+					template: `<div class="form_header flex-center"><span class="header_text">${_("Регистрация")}</span></div>`,
 					type: "header",
 					borderless: true,
 					height: 60
@@ -16,8 +19,8 @@ export default class RegisterView extends JetView {
 				{
 					view: "text",
 					name: "login",
-					invalidMessage: "This field must be filled",
-					placeholder: "Моб.телефон или Email",
+					invalidMessage: _("Это поле не должно быть пустым"),
+					placeholder: _("Моб.телефон или Email"),
 					width: 510,
 					height: 70,
 					css: "custom_input"
@@ -25,8 +28,8 @@ export default class RegisterView extends JetView {
 				{
 					view: "text",
 					name: "name",
-					invalidMessage: "This field must be filled",
-					placeholder: "Имя и фамилия",
+					invalidMessage: _("Это поле не должно быть пустым"),
+					placeholder: _("Имя и фамилия"),
 					width: 510,
 					height: 70,
 					css: "custom_input"
@@ -34,8 +37,8 @@ export default class RegisterView extends JetView {
 				{
 					view: "text",
 					name: "password",
-					invalidMessage: "This field must be filled",
-					placeholder: "Пароль",
+					invalidMessage: _("Это поле не должно быть пустым"),
+					placeholder: _("Пароль"),
 					type: "password",
 					width: 510,
 					height: 70,
@@ -45,7 +48,7 @@ export default class RegisterView extends JetView {
 					rows: [
 						{
 							view: "button",
-							value: "Зарегистрироваться",
+							value: _("Зарегистрироваться"),
 							width: 510,
 							height: 75,
 							css: "form_enter-btn green_btn",
@@ -57,7 +60,7 @@ export default class RegisterView extends JetView {
 
 				},
 				{
-					template: "<div class=\"flex-center\"><span class=\"bottom_text\">У вас уже есть аккаунт? <span class=\"green_text\">Вход</span></span></div>",
+					template: `<div class="flex-center"><span class="bottom_text">${_("У вас уже есть аккаунт?")} <span class="green_text">${_("Вход")}</span></span></div>`,
 					borderless: true,
 					onClick: {
 						green_text: () => {
@@ -82,7 +85,12 @@ export default class RegisterView extends JetView {
 		};
 		const ui = {
 			cols: [
-				{},
+				{
+					rows: [
+						LangSegment,
+						{}
+					]
+				},
 				{
 					rows: [
 						{
@@ -102,18 +110,19 @@ export default class RegisterView extends JetView {
 	}
 
 	doRegister() {
+		const _ = this.app.getService("locale")._;
 		const form = this.$$("register:form");
 		if (form.validate()) {
 			const data = form.getValues();
 			data.login = data.login.trim();
 			webix.ajax().post("/server/register", data)
 				.catch((err) => {
-					if (err.status === 403) webix.message("Такой пользователь уже существует");
-					else webix.message("Неизвестная ошибка, попробуйте снова");
+					if (err.status === 403) webix.message(_("Такой пользователь уже существует"));
+					else webix.message(_("Неизвестная ошибка, попробуйте снова"));
 				})
 				.then(() => {
 					this.app.show("startViews.login");
-					webix.message("Регистрация прошла успешно");
+					webix.message(_("Регистрация прошла успешно"));
 				});
 		}
 	}

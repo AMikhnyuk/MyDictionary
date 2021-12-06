@@ -1,13 +1,17 @@
 import {JetView} from "webix-jet";
 
+import LangSegment from "../additionalViews/langSegment";
+
 export default class ProfileView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const photo = {
 			localId: "profilePhoto",
 			template: ({src, name}) => `
-				<img class="custom_img" src="${src}">
-				<span class="header_text">${name}</span>
+				<div style="height:300px;"><img class="custom_img" src="${src}"></div>
+				<div class="flex-center" style="padding-top:20px;"><span class="header_text">${name}</span></div>
 			`,
+			height: 400,
 			borderless: true
 
 		};
@@ -16,7 +20,7 @@ export default class ProfileView extends JetView {
 			elements: [
 				{view: "uploader",
 					css: "green_btn",
-					value: "Загрузить фото",
+					value: _("Загрузить фото"),
 					autosend: false,
 					accept: "image/jpeg, image/png",
 					multiple: false,
@@ -29,11 +33,13 @@ export default class ProfileView extends JetView {
 				{
 					view: "button",
 					css: "webix_danger",
-					value: "Удалить",
+					value: _("Удалить"),
 					click: () => {
 						webix.confirm("Удалить фото").then(() => {
 							webix.ajax().put(`server/user/${this.user.id}`, {photo: ""}).then(() => {
-								this.$$("profilePhoto").setValues({src: ""});
+								this.app.getService("user").getUser().photo = "";
+								this.$$("profilePhoto").setValues({src: "", name: this.user.name});
+								this.app.callEvent("changePhoto", [""]);
 							});
 						});
 					}
@@ -48,6 +54,7 @@ export default class ProfileView extends JetView {
 						{},
 						{
 							rows: [
+								LangSegment,
 								photo,
 								toolbar
 							]
@@ -62,6 +69,7 @@ export default class ProfileView extends JetView {
 	}
 
 	init() {
+		webix.ajax().get("server/user/this.user.id");
 		this.user = this.app.getService("user").getUser();
 		this.$$("profilePhoto").setValues({src: this.user.photo, name: this.user.name});
 	}
@@ -71,7 +79,10 @@ export default class ProfileView extends JetView {
 		const reader = new FileReader();
 		reader.onload = (event) => {
 			webix.ajax().put(`server/user/${this.user.id}`, {photo: event.target.result}).then(() => {
-				this.$$("profilePhoto").setValues({src: event.target.result});
+				const photo = event.target.result;
+				this.app.getService("user").getUser().photo = photo;
+				this.$$("profilePhoto").setValues({src: photo, name: this.user.name});
+				this.app.callEvent("changePhoto", [photo]);
 			});
 		};
 		reader.readAsDataURL(file);

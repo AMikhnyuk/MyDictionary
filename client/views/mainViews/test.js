@@ -1,18 +1,19 @@
 import {JetView} from "webix-jet";
 
-import wordsCollection from "../../models/words";
 
 export default class TestView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
+		const user = this.app.getService("user").getUser();
 		const testHeader = {
 			template: `
 				<div>
 					<div class="test_big header_text">
-						Проверьте свои знания прямо сейчас!
+						${_("Проверьте свои знания прямо сейчас!")}
 					</div>
 						
 					<div class="test_small flex-center">
-						Выберете, какую группу слов вы хотели бы проверить
+						${_("Выберете, какую группу слов вы хотели бы проверить")}
 					</div>
 				</div>
 			`,
@@ -33,7 +34,7 @@ export default class TestView extends JetView {
 							name: "groupId",
 							options: {
 								body: {
-									url: `server/groups${this.app.getService("user").getUser().id}`,
+									url: `server/groups${user.id}`,
 									template: "#name#"
 								}
 							},
@@ -48,7 +49,7 @@ export default class TestView extends JetView {
 						{},
 						{
 							view: "button",
-							value: "Проверить",
+							value: _("Проверить"),
 							css: "green_btn",
 							height: 60,
 							width: 305,
@@ -61,9 +62,6 @@ export default class TestView extends JetView {
 					]
 				}
 			],
-			rules: {
-				groupId: value => wordsCollection.find(item => item.groupId === value).length >= 10 && value
-			},
 			margin: 20,
 			borderless: true
 		};
@@ -86,9 +84,11 @@ export default class TestView extends JetView {
 	}
 
 	init() {
-		webix.ajax().get("server/inprogress").then((a) => {
+		this.user = this.app.getService("user").getUser();
+		const _ = this.app.getService("locale")._;
+		webix.ajax().get(`server/inprogress/${this.user.id}`).then((a) => {
 			if (a.json().status === "in-progress") {
-				webix.confirm("Вы не закончили прохождение прошлого теста. Продолжить?").then(() => {
+				webix.confirm(_("Вы не закончили прохождение прошлого теста. Продолжить?")).then(() => {
 					this.app.show(`main/mainViews.testViews.runTest?testId=${a.json().id}?step=${a.json().currentStep}`);
 				});
 			}
@@ -96,14 +96,16 @@ export default class TestView extends JetView {
 	}
 
 	runTest() {
+		const _ = this.app.getService("locale")._;
 		const form = this.$$("test:form");
-
-		if (form.validate()) {
-			const groupId = form.getValues().groupId;
-			webix.ajax().post(`server/test/${groupId}`).then((a) => {
-				this.app.show(`main/mainViews.testViews.runTest?testId=${a.json().id}?step=1?`);
-			});
-		}
-		else webix.message("Группа должна содержать десять и более слов");
+		const groupId = form.getValues().groupId;
+		webix.ajax().get(`server/words/${groupId}`).then((words) => {
+			if (words.json().length >= 10) {
+				webix.ajax().post(`server/test/${groupId}`, {userId: this.user.id}).then((a) => {
+					this.app.show(`main/mainViews.testViews.runTest?testId=${a.json().id}?step=1?`);
+				});
+			}
+			else webix.message(_("Группа должна содержать десять и более слов"));
+		});
 	}
 }

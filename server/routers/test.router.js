@@ -10,9 +10,9 @@ const testRouter = new Router();
 const testController = new CommonController(Test);
 
 
-testRouter.get("/test", (req, res) => testController.getAll(req, res));
+testRouter.get("/test/userId:userId", (req, res) => testController.getAllByUserId(req, res));
 testRouter.get("/test/:testId", (req, res) => TestController.getById(req, res));
-testRouter.get("/inprogress", (req, res) => TestController.getInProgress(req, res));
+testRouter.get("/inprogress/:userId", (req, res) => TestController.getInProgress(req, res));
 testRouter.put("/test/:testId", (req, res) => testController.updateOne(req, res));
 testRouter.post("/test/:groupId", (req, res) => TestController.newTest(req, res));
 module.exports = testRouter;

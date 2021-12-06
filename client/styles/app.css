@@ -65,7 +65,21 @@
     line-height: 28px;
     color: #848484;
 }
-
+.customSegment button{
+    color:#599E71;
+}
+.customSegment .webix_selected{
+    background-color: #599E71;
+}
+.customSegment button:hover,
+.customSegment button:active,
+.customSegment button:focus{
+    background-color: #599E71;
+    color: white;
+}
+.customSegment .webix_selected:hover{
+    background-color: #345c42;
+}
 /* ----------BACKGROUND---------- */
 
 .webix_full_screen.webixapp{

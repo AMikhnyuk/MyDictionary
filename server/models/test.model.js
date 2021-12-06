@@ -20,6 +20,9 @@ const Test = sequelize.define("Test", {
 	},
 	status: {
 		type: DataTypes.STRING
+	},
+	userId: {
+		type: DataTypes.STRING
 	}
 }, {});
 Test.sync({alter: true});

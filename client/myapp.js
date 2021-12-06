@@ -18,6 +18,13 @@ export default class MyApp extends JetApp {
 			login: "/startViews.login",
 			public: path => path === "/startViews.register"
 		});
+		this.use(plugins.Locale, {
+			lang: "ru",
+			webix: {
+				en: "en-US",
+				ru: "ru-RU"
+			}
+		});
 	}
 }
 

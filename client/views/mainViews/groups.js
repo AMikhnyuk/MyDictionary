@@ -3,6 +3,7 @@ import {JetView} from "webix-jet";
 
 export default class GroupsView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const groupsTable = {
 			view: "datatable",
 			css: "custom_table",
@@ -11,15 +12,15 @@ export default class GroupsView extends JetView {
 			editable: true,
 			editaction: "dblclick",
 			columns: [
-				{id: "name", header: "Имя", fillspace: true, css: "name_column", editor: "text", editaction: "dblclick"},
+				{id: "name", header: _("Имя"), fillspace: true, css: "name_column", editor: "text", editaction: "dblclick"},
 				{
 					id: "createdAt",
-					header: "Дата создания",
+					header: _("Дата создания"),
 					adjust: "header",
 					css: "align-center_column",
 					format: value => webix.Date.dateToStr("%d.%m.%Y")(new Date(value))
 				},
-				{id: "wordsnum", header: "Кол. слов", adjust: "header", align: "right", css: "align-center_column"},
+				{id: "wordsnum", header: _("Кол. слов"), adjust: "header", align: "right", css: "align-center_column"},
 				{template: "<i class=\"webix_icon wxi-download green_text download\"></i>", width: 50},
 				{template: "<i class=\"webix_icon wxi-trash green_text delete\"></i>", width: 50}
 			],
@@ -53,7 +54,7 @@ export default class GroupsView extends JetView {
 		};
 		const groupsTableHeader = {
 			template: `
-				<span class="header_text">Мои группы</span>
+				<span class="header_text">${_("Мои группы")}</span>
 				<i class="webix_icon wxi-plus green_text"></i>
 				`,
 			css: "table_header flex-center",
@@ -71,9 +72,9 @@ export default class GroupsView extends JetView {
 			elements: [
 				{
 					cols: [
-						{view: "text", name: "name", css: "custom_input", placeholder: "Название группы"},
+						{view: "text", name: "name", css: "custom_input", placeholder: _("Название группы")},
 						{view: "button",
-							value: "Добавить",
+							value: _("Добавить"),
 							css: "green_btn",
 							width: 100,
 							click: () => {
@@ -82,7 +83,7 @@ export default class GroupsView extends JetView {
 						},
 						{
 							view: "button",
-							value: "Отмена",
+							value: _("Отмена"),
 							css: "green_btn",
 							width: 100,
 							click: () => {
