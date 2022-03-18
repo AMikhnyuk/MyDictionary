@@ -1,0 +1,315 @@
+/* --------COMMON------- */
+.border-radius{
+    border-radius: 10px;
+}
+.custom_img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.red{
+    color: rgb(182, 50, 50);
+}
+.flex-center{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.green_text{
+    color:#599E71
+}
+.green_text:hover{
+    cursor: pointer;
+    color: #4a855f;
+}
+.transparent,
+.webix_view.webix_form.transparent{
+    background: transparent;
+}
+.header_text{
+    text-align: center;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 35px;
+    color: black;
+}
+.webix_danger .webix_button{
+    border-radius: 10px;
+
+}
+.webix_secondary.green_btn .webix_button{
+    background-color: #599E71;
+    color: #F4F5F9;
+    border-radius: 10px;
+}
+.webix_secondary.green_btn .webix_button:hover{
+    background-color: #4a855f;
+}
+
+.webix_view.webix_control.webix_el_richselect.custom_input  div,
+.webix_view.webix_control.webix_el_text.custom_input input,
+.custom_input{
+    border: 1px solid #ADADAD;
+    border-radius: 10px;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 28px;
+}
+.webix_view.webix_control.webix_el_richselect.custom_input > div{
+    border:none
+}
+.custom_input.webix_layout_form input::placeholder,
+.custom_input{
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 28px;
+    color: #848484;
+}
+.customSegment button{
+    color:#599E71;
+}
+.customSegment .webix_selected{
+    background-color: #599E71;
+}
+.customSegment button:hover,
+.customSegment button:active,
+.customSegment button:focus{
+    background-color: #599E71;
+    color: white;
+}
+.customSegment .webix_selected:hover{
+    background-color: #345c42;
+}
+/* ----------BACKGROUND---------- */
+
+.webix_full_screen.webixapp{
+    background: url(https://cs11.pikabu.ru/post_img/big/2020/05/12/9/1589296666113294753.jpg) center no-repeat;
+    background-size: cover;
+}
+
+/* -----------LOGIN------------- */
+
+
+.start_form.webix_layout_form{
+    border-radius: 40px;
+}
+.webix_view.login_logo .webix_template img{
+    max-width: 175px;
+}
+.webix_secondary.form_enter-btn .webix_button{
+
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 33px;
+    
+}
+.bottom_text{
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 26px;
+}
+
+/* -----------HEADER--------------- */
+
+.header_logo{
+    max-width: 150px;
+    cursor: pointer;
+}
+.header_user{
+    border: 0.710145px solid #599E71;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+}
+.user_img{
+    border-radius: 50%;
+}
+.header_user:hover{
+    cursor: pointer;
+}
+.main_header .webix_template{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header_link{
+    margin: 0px 10px 0px 10px;
+    font-size: 20px ;
+}
+
+/* ------------CUSTOM TABLES------------- */
+
+.webix_view.table_header{
+    background: #F4F5F9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.webix_view.webix_dtable.custom_table{
+    
+    border: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #F4F5F9;
+}
+.webix_view.webix_dtable.custom_table div.webix_last_row{
+    border-bottom: 1px solid rgba(89, 158, 113, 0.5);
+}
+.webix_column.name_column{
+    font-weight: normal;
+    font-size: 21px;
+    line-height: 26px;
+    color: #131412;
+}
+.webix_column.align-center_column{
+    text-align: center;
+}
+.webix_dtable.custom_table .webix_select_mark > div.webix_row_select{
+    box-shadow: inset 2px 0 #4a855f;
+}
+
+/* -----------NOGROUPS TEMPLATE------------- */
+
+
+.webix_view.nougroups_template{
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 40px;
+}
+.webix_view.nougroups_template:hover{
+    opacity: 75%;
+}
+.nougroups_header{
+    padding-top: 32px;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-bottom: 67px;
+}
+.create_group{
+    width: 100%;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 33px;
+}
+.nougroups_name{
+    margin-bottom: 15px;
+}
+.nogroups_input{
+    padding-left: 10px;
+    height: 50px;
+    width: 400px;
+}
+
+
+/* -------------TEST-------------- */
+
+.test_big{
+    padding-top:40px;
+    margin-bottom: 20px;
+}
+.test_small{
+    color: black;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+/* POPUPS */
+
+.addStoreWindow{
+    background: #FFFFFF;
+    box-shadow: 0px 0px 8px rgba(13, 17, 38, 0.35);
+    border-radius: 16px;
+}
+
+.addStoreLabel .webix_template{
+   display: flex;
+   align-items: center;
+   padding-left: 20px;
+}
+.labelText{
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    color: #2D2D3F;
+    margin-right: 12px;
+}
+.labelSteps{
+    color: #9FA2BB;
+}
+.labelStepsRed{
+    color:#E51928;
+}
+.wxi-close.addStoreClose{
+    color:#2D2D3F;
+}
+
+.addStoreName{
+    font-size: 17px;
+    line-height: 20px;
+    color: #2D2D3F;
+    padding-left: 0;
+}
+.addStoreForm label{
+    color: #63697D;
+    font-weight: normal;
+}
+.addStoreForm .webix_switch_box.webix_switch_on{
+    background-color: #E51928;
+    border:none
+}
+.addStoreForm .webix_switch_box{
+    background-color: #DDE0E9;
+}
+
+.webix_secondary.cancelButton .webix_button{
+    border: 1px solid #E51928;
+    border-radius: 4px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #E51928;
+}
+.webix_secondary.nextButton .webix_button{
+    background: #E51928;
+    border-radius: 4px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FFFFFF;
+}
+.webix_secondary.backButton .webix_button, 
+.webix_secondary.backButton .webix_button span{
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    background: none;
+    color: #9FA2BB;
+}
+.webix_secondary.backButton .webix_button span{
+    font-size: 20px;
+}
+.webix_secondary.backButton .webix_button:hover,
+.webix_secondary.backButton .webix_button:focus,
+.webix_secondary.backButton .webix_button:active,
+.webix_secondary.nextButton .webix_button:hover,
+.webix_secondary.cancelButton .webix_button:hover,
+.webix_secondary.nextButton .webix_button:focus,
+.webix_secondary.cancelButton .webix_button:focus,
+.webix_secondary.nextButton .webix_button:active,
+.webix_secondary.cancelButton .webix_button:active{
+    opacity: 75%;
+
+}
+
+/* --------RUN TEST----------- */
+
+.step_count{
+    display: flex;
+    height: 20px;
+    justify-content: space-between;
+}
+.step_count div{
+    border: 1px solid grey;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
